@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css' integrity='sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="style.css">
+    <title>Restorant</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="menu-bar">
+            <div class="header">
+                <h1>رستوران مک دونالد شعبه تهران</h1>
+            </div>
+            <div class="menu">
+                <!-- Display products -->
+            </div>
+        </div>
+        <div class="cart">
+            <h2>سبد خرید</h2>
+            <ul id="cart-items"></ul>
+            <p> جمع کل سفارشات : <span id="cart-total">0</span> تومان</p>
+            <p>حق سرویس و کارمزد : <span id="cart-service-fee">0</span> تومان</p>
+            <p>تخفیف: <span id="cart-discount">0</span> درصد </p>
+            <p class="cart-sum">مبلغ قابل پرداخت: <span id="cart-sum">0</span> تومان</p>
+            <input class="code" type="text" id="discount-code" placeholder="کد تخفیف را وارد کنید">
+            <button class="discount" onclick="applyDiscount()"><i class="fas fa-check"></i></button>
+            <button class="orderr" onclick="checkout()">ثبت سفارش</button>
+        </div>
+    </div>
+
+    <div id="model" class="model">
+        <div class="model-content">
+            <p> خرید شما ثبت شد . از خرید شما سپاسگزاریم</p>
+            <span class="close" onclick="closeModal()">باشه</span>  
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
