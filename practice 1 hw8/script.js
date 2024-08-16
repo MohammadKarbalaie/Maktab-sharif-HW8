@@ -10,6 +10,7 @@ const products = [
     { id: 9, name: 'سالاد سزار', price: 25000, image: 'ceasar.png' },
     { id: 10, name: 'سالاد فصل', price: 8000, image: 'salad.png' },
 ];
+
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let discountCodes = {
     gold: 3,
@@ -38,7 +39,7 @@ function displayProducts() {
 
 function addToCart(productId) {
     const product = products.find(item => item.id === productId);
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => item.id === productId); 
     if (existingItem) {
         existingItem.quantity++;
     } else {
@@ -90,49 +91,44 @@ function updateCart() {
     const cartDiscount = document.getElementById('cart-discount');
     const cartServiceFee = document.getElementById('cart-service-fee');
     const cartsum = document.getElementById('cart-sum');
-
     cartItems.innerHTML = '';
-    let total = 0;
-    let count = 0;
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-        count += item.quantity;
-        // const li = document.createElement('li');
-        // li.textContent = `${item.name} (${item.quantity} units)`;
-        // cartItems.appendChild(li);
-    });
-
+    
+    const total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+    
     cartTotal.textContent = total.toFixed(0);
-    cartDiscount.textContent = calculateDiscount(total).toFixed(0)/100;
+    const discountValue = calculateDiscount(total);
+    cartDiscount.textContent = discountValue.toFixed(0) / 100;
     cartServiceFee.textContent = calculateServiceFee(total).toFixed(0);
-    cartsum.textContent = ((total + calculateServiceFee(total)) - calculateDiscount(total))
+    cartsum.textContent = ((total + calculateServiceFee(total)) - discountValue);
 
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 function calculateDiscount(total) {
     const discountCode = document.getElementById('discount-code').value.toLowerCase();
-    if (discountCodes.hasOwnProperty(discountCode)) {
-        const discount = discountCodes[discountCode]; // Corrected discount to be in percentage
-        return (total * (discount / 100));
-    } else {
-        return 0;
+    if (discountCode) {
+        if (discountCodes.hasOwnProperty(discountCode)) {
+            const discount = discountCodes[discountCode];
+            return (total * (discount / 100));
+        } else {
+            alert('The discount code is not correct.');
+            return 0; 
+        }
     }
+    return 0; 
 }
 
 function calculateServiceFee(total) {
-    // Calculate service fee
     const serviceFeePercentage = 0.05;
     return total * serviceFeePercentage;
 }
-
 
 function applyDiscount() {
     updateCart();
 }
 
 function checkout() {
-    // Process checkout
     cart = [];
     updateCart();
     document.getElementById('model').style.display = 'block';
@@ -147,5 +143,4 @@ window.addEventListener('load', () => {
     cart = JSON.parse(localStorage.getItem('cart')) || [];
     updateCart();
 });
-
 displayProducts();
